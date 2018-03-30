@@ -1,28 +1,27 @@
 {
     "name": "cold",
-    "captureSource": "file:////Users/jackhig/Documents/Dev/water_meter/OpenCV/video0.avi",
+    "captureSource": 1,
     "warmUp": 30,
     "mode": "LIVE",
     "sensitivity": 0.1,
     "meterFace": {
-    	"centrePoint": [310, 284],
+    	"centrePoint": [285, 234],
     	"radius": {
-    		"inner": 230,
-    		"outer": 280,
-    		"trigger": 250
-    	},
-    	"zeroAngle": 90
+    		"inner": 210,
+    		"outer": 260,
+    		"trigger": 230
+    	}
     },
     "triggers": [
     	[
     		{
     			"angle": -93,
-    			"offset": 0,
+    			"offset": 2,
     			"size": 25
     		},
     		{
     			"angle": -86,
-    			"offset": 0,
+    			"offset": 2,
     			"size": 25
     		}
     	],
@@ -41,12 +40,12 @@
     	[
     		{
     			"angle": -55,
-    			"offset": 0,
+    			"offset": 2,
     			"size": 25
     		},
     		{
     			"angle": -48,
-    			"offset": 0,
+    			"offset": 2,
     			"size": 25
     		}
     	],
@@ -65,36 +64,36 @@
     	[
     		{
     			"angle": -17,
-    			"offset": 0,
+    			"offset": 2,
     			"size": 25
     		},
     		{
     			"angle": -10,
-    			"offset": 0,
+    			"offset": 2,
     			"size": 25
     		}
     	],
     	[
     		{
     			"angle": 2,
-    			"offset": 0,
+    			"offset": 5,
     			"size": 25
     		},
     		{
     			"angle": 9,
-    			"offset": 0,
+    			"offset": 5,
     			"size": 25
     		}
     	],
     	[
     		{
     			"angle": 21,
-    			"offset": 0,
+    			"offset": 8,
     			"size": 25
     		},
     		{
     			"angle": 28,
-    			"offset": 0,
+    			"offset": 8,
     			"size": 25
     		}
     	],
@@ -113,24 +112,24 @@
     	[
     		{
     			"angle": 56,
-    			"offset": 0,
+    			"offset": 10,
     			"size": 25
     		},
     		{
     			"angle": 63,
-    			"offset": 0,
+    			"offset": 10,
     			"size": 25
     		}
     	],
     	[
     		{
     			"angle": 75,
-    			"offset": 0,
+    			"offset": -10,
     			"size": 25
     		},
     		{
     			"angle": 82,
-    			"offset": 0,
+    			"offset": -10,
     			"size": 25
     		}
     	]

@@ -1,6 +1,6 @@
 {
     "name": "cold",
-    "captureSource": "file:////Users/jackhig/Documents/Dev/water_meter/OpenCV/video0.avi",
+    "captureSource": 0,
     "warmUp": 30,
     "mode": "LIVE",
     "sensitivity": 0.1,
