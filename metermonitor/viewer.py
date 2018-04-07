@@ -7,21 +7,21 @@ class Viewer:
         cv2.waitKey(10)
         cv2.imshow('frame', frame)
 
-    def render(self, rawFrame, filteredFrame, meter):
+    def render(self, raw_frame, filtered_frame, meter):
         cv2.waitKey(10)
 
-        rawCopy = rawFrame.copy()
-        filterCopy = filteredFrame.copy()
+        raw_copy = raw_frame.copy()
+        filter_copy = filtered_frame.copy()
 
-        for zone in meter.getZones():
+        # for zone in meter.getZones():
+        #
+        #     zoneImg = extractRect(filter_copy, zone.x(), zone.y(), zone.w(), zone.h())
+        #
+        #     drawRect(raw_copy, zone.x(), zone.y(), zone.w(), zone.h(), 0)
+        #     if zone.is_hot():
+        #         drawRect(filter_copy, zone.x(), zone.y(), zone.w(), zone.h(), 255)
+        #     else:
+        #         drawRect(filter_copy, zone.x(), zone.y(), zone.w(), zone.h(), 0)
 
-            zoneImg = extractRect(filterCopy, zone.x(), zone.y(), zone.w(), zone.h())
-
-            drawRect(rawCopy, zone.x(), zone.y(), zone.w(), zone.h(), 0)
-            if zone.is_hot():
-                drawRect(filterCopy, zone.x(), zone.y(), zone.w(), zone.h(), 255)
-            else:
-                drawRect(filterCopy, zone.x(), zone.y(), zone.w(), zone.h(), 0)
-
-        cv2.imshow('raw', rawCopy)
-        cv2.imshow('filtered', filterCopy)
+        cv2.imshow('raw', raw_copy)
+        cv2.imshow('filtered', filter_copy)

@@ -1,12 +1,12 @@
 from unittest import TestCase
-from metermonitor import Trigger, Zone, Config
+from metermonitor import Trigger, Zone
 
 
 class TestConfig:
-    def isDebug(self):
+    def is_debug(self):
         return False
 
-    def isCalibrate(self):
+    def is_calibrate(self):
         return False
 
 
