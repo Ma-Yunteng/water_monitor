@@ -23,4 +23,3 @@ class Zone:
 
     def update(self, is_hot):
         self.__hot = is_hot
-
