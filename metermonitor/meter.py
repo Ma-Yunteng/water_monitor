@@ -59,7 +59,7 @@ class Meter:
         for trigger in trigger_config:
             zone0 = self.__get_zone_from_config(trigger[0])
             zone1 = self.__get_zone_from_config(trigger[1])
-            triggers.append(Trigger(zone0, zone1))
+            self.__triggers.append(Trigger(zone0, zone1))
 
     def update(self, data):
         fired = []

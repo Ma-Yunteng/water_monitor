@@ -121,4 +121,3 @@ class TestTrigger(TestCase):
         # should now fire
         self.trigger.update([False, False])
         self.assertTrue(self.trigger.fired())
-

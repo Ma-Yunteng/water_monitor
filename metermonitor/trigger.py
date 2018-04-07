@@ -72,6 +72,3 @@ class Trigger:
 
     def __has_changed(self):
         return set(self.__lastState) != set(self.__state)
-
-
-

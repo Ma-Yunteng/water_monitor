@@ -25,5 +25,3 @@ class Viewer:
 
         cv2.imshow('raw', rawCopy)
         cv2.imshow('filtered', filterCopy)
-
-

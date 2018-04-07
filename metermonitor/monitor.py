@@ -1,5 +1,6 @@
 from . import Config
 
+
 class Monitor:
 
     def __init__(self, config: Config, viewer):
