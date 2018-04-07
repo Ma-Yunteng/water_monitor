@@ -76,3 +76,79 @@ class TestMeter(TestCase):
         self.assertEqual(meter.get_zones()[1].raw(), expected_1)
 
         self.assertEqual(len(meter.get_zones()), 2)
+
+
+def update_meter_zones(meter, update_data):
+    i = 0
+
+    for zone in meter.get_zones():
+        zone.update(update_data[i])
+        i = i+1
+
+    return meter.recent_flow()
+
+
+class TestMeterWithRealisticTriggers(TestCase):
+
+    def setUp(self):
+        trigger_config = json.loads("""[[
+        {
+            "angle": -93,
+            "offset": 0,
+            "size": 25
+        },
+        {
+            "angle": -86,
+            "offset": 0,
+            "size": 25
+        }
+    ],
+    [
+        {
+            "angle": -74,
+            "offset": 0,
+            "size": 25
+        },
+        {
+            "angle": -67,
+            "offset": 0,
+            "size": 25
+        }
+    ],
+    [
+        {
+            "angle": -55,
+            "offset": 0,
+            "size": 25
+        },
+        {
+            "angle": -48,
+            "offset": 0,
+            "size": 25
+        }
+    ]]""")
+
+        sample_meter_face = json.loads("""{
+            "centrePoint": [1000, 1000],
+            "radius": {
+                "inner": 100,
+                "outer": 300,
+                "trigger": 200
+            },
+            "zeroAngle": 90
+        }""")
+
+        self.meter = Meter(TestConfig(trigger_config, sample_meter_face))
+
+    def test_correctCycle_triggersAtExpectedPoints(self):
+        self.assertEqual(0, update_meter_zones(self.meter, [False, False, False, False, False, False]))
+        self.assertEqual(0, update_meter_zones(self.meter, [False, False, False, False, False, False]))
+
+        self.assertEqual(0, update_meter_zones(self.meter, [True, False, False, False, False, False]))
+        self.assertEqual(1, update_meter_zones(self.meter, [True, True, False, False, False, False]))
+        self.assertEqual(0, update_meter_zones(self.meter, [True, True, True, False, False, False]))
+        self.assertEqual(1, update_meter_zones(self.meter, [True, True, True, True, False, False]))
+        self.assertEqual(0, update_meter_zones(self.meter, [True, True, True, True, True, False]))
+        self.assertEqual(1, update_meter_zones(self.meter, [True, True, True, True, True, True]))
+        self.assertEqual(0, update_meter_zones(self.meter, [False, True, True, True, True, True]))
+        self.assertEqual(1, update_meter_zones(self.meter, [False, False, True, True, True, True]))
