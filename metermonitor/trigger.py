@@ -58,7 +58,7 @@ class Trigger:
     def fired(self):
         if self.__has_changed() and self.known_state() and self.sensible_state():
             if self.all_equal(self.__state):
-                if self.__config.isDebug():
+                if self.__config.is_debug():
                     print(self.__number, " : ", self.__lastState, " -> ", self.__state)
                 return True
 

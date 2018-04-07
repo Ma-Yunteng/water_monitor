@@ -12,17 +12,26 @@ class Config:
 
         self.__mode = mode
 
-    def videoSource(self):
-        return self.__config["captureSource"]
+    def name(self):
+        return self.__config["name"]
+
+    def sensitivity(self):
+        return self.__config["sensitivity"]
+
+    def triggers(self):
+        return self.__config["triggers"]
+
+    def device(self):
+        return self.__config["device"]
 
     def mode(self):
         return self.__mode
 
-    def isDebug(self):
+    def is_debug(self):
         return "DEBUG" in self.mode()
 
-    def isCalibrate(self):
+    def is_calibrate(self):
         return "CALIBRATE" in self.mode()
 
-    def meterFace(self):
+    def meter_face(self):
         return self.__config["meterFace"]
