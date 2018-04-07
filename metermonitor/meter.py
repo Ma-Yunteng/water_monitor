@@ -1,5 +1,5 @@
 import collections
-from . import Config, Trigger
+from . import Config, Trigger, Zone
 import math
 
 
@@ -10,21 +10,10 @@ class Meter:
         self.__name = config.name()
         self.__lastFired = None
         self.__sensitivity = config.sensitivity()
-        self.__triggers = []
-        self.__zones = []
-        self.__setup_triggers(config.triggers())
-        self.__fireDeque = collections.deque(maxlen=len(self.__triggers))
-
-        trigCount = 0
-
-        for item in self.__triggers:
-            self.__fireDeque.append(item)
-            self.__zones.extend(item.zones())
-            item.set_number(trigCount)
-            trigCount = trigCount + 1
+        self.__triggers, self.__fireDeque, self.__zones = self.__setup_triggers(config)
 
     @staticmethod
-    def __rotate_around_point_lowperf(point, radians, origin=(0, 0)):
+    def __rotate(point, radians, origin):
         """
         From https://ls3.io/post/rotate_a_2d_coordinate_around_a_point_in_python/
         """
@@ -40,31 +29,56 @@ class Meter:
     def __degrees_to_clockwise_rads(degrees):
         return math.radians(degrees) * -1
 
-    def __get_zone_by_angle(self, degrees, radius_offset, size):
-        origin = self.__config.meter_face()["centrePoint"]
-        trigger_radius = self.__config.meter_face()["radius"]["trigger"]
-        zero_angle_offset = self.__config.meter_face()["zeroAngle"]
+    @staticmethod
+    def __array_to_zone(array):
+        x = array[0]
+        y = array[1]
+        size = array[2]
+
+        left = int(x - (size / 2))
+        top = int(y - (size / 2))
+
+        return Zone(left, top, array[2])
+
+    def __get_zone_by_angle(self, meter_face, degrees, radius_offset, size):
+        origin = meter_face["centrePoint"]
+        trigger_radius = meter_face["radius"]["trigger"]
+        zero_angle_offset = meter_face["zeroAngle"]
 
         zero_angle_point = (origin[0] - trigger_radius - radius_offset, origin[1])
-        zero_angle_point = self.__rotate_around_point_lowperf(zero_angle_point, self.__degrees_to_clockwise_rads(zero_angle_offset), origin)
-        rotated_point = self.__rotate_around_point_lowperf(zero_angle_point, self.__degrees_to_clockwise_rads(degrees), origin)
-        rotated_angle_zone = self.__arrayToZone([rotated_point[0], rotated_point[1], size])
+        zero_angle_point = self.__rotate(zero_angle_point, self.__degrees_to_clockwise_rads(zero_angle_offset), origin)
+        rotated_point = self.__rotate(zero_angle_point, self.__degrees_to_clockwise_rads(degrees), origin)
+        rotated_angle_zone = self.__array_to_zone([rotated_point[0], rotated_point[1], size])
 
         return rotated_angle_zone
 
-    def __get_zone_from_config(self, item):
-        return self.__get_zone_by_angle(item["angle"], item["offset"], item["size"])
+    def __get_zone_from_config(self, item, meter_face):
+        return self.__get_zone_by_angle(meter_face, item["angle"], item["offset"], item["size"])
 
-    def __setup_triggers(self, trigger_config):
-        for trigger in trigger_config:
-            zone0 = self.__get_zone_from_config(trigger[0])
-            zone1 = self.__get_zone_from_config(trigger[1])
-            self.__triggers.append(Trigger(zone0, zone1))
+    def __setup_triggers(self, config: Config):
+        fire_deque = collections.deque(maxlen=len(config.triggers()))
+        triggers = []
+        zones = []
 
-    def update(self, data):
+        trig_count = 0
+
+        for trig_config in config.triggers():
+            zone0 = self.__get_zone_from_config(config.meter_face(), trig_config[0])
+            zone1 = self.__get_zone_from_config(config.meter_face(), trig_config[1])
+            new_trigger = Trigger(trig_count, zone0, zone1, config)
+
+            triggers.append(new_trigger)
+            fire_deque.append(new_trigger)
+            zones.extend(new_trigger.zones())
+
+            trig_count = trig_count + 1
+
+        return triggers, fire_deque, zones
+
+    def recent_flow(self):
         fired = []
         for trigger in self.__triggers:
-            trigger.update(data)
+            trigger.update()
             if trigger.fired():
                 fired.append(trigger)
 
@@ -87,5 +101,5 @@ class Meter:
 
         return 0
 
-    def getZones(self):
+    def get_zones(self):
         return self.__zones

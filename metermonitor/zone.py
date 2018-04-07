@@ -23,5 +23,4 @@ class Zone:
 
     def update(self, is_hot):
         self.__hot = is_hot
-        # zoneRect = extractRect(data, self.x(), self.y(), self.w(), self.h())
-        # self.__hot = isLighterThan50percentGrey(zoneRect)
+
