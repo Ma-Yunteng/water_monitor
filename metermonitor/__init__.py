@@ -5,5 +5,6 @@ from .camera import Camera
 from .monitor import Monitor
 from .zone import Zone
 from .trigger import Trigger
+from .meter import Meter
 
-__all__ = ['Config', 'NullViewer', 'Viewer', 'Monitor', 'Camera', 'Zone', 'Trigger']
+__all__ = ['Config', 'NullViewer', 'Viewer', 'Monitor', 'Camera', 'Zone', 'Trigger', 'Meter']
