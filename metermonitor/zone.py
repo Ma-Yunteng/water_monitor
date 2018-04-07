@@ -23,3 +23,6 @@ class Zone:
 
     def update(self, is_hot):
         self.__hot = is_hot
+
+    def raw(self):
+        return self.x(), self.y(), self.w(), self.h()

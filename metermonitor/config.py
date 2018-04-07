@@ -6,7 +6,8 @@ class Config:
 
     def __init__(self, configuration, mode="LIVE"):
         if os.path.exists(configuration):
-            self.__config = json.load(open(configuration))
+            with open(configuration, 'r') as conf_file:
+                self.__config = json.load(conf_file)
         else:
             self.__config = json.loads(configuration)
 

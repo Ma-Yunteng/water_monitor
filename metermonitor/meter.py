@@ -52,7 +52,7 @@ class Meter:
 
         return rotated_angle_zone
 
-    def __get_zone_from_config(self, item, meter_face):
+    def __get_zone_from_config(self, meter_face, item):
         return self.__get_zone_by_angle(meter_face, item["angle"], item["offset"], item["size"])
 
     def __setup_triggers(self, config: Config):
