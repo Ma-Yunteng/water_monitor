@@ -1,4 +1,4 @@
-import unittest
+from unittest import TestCase
 from metermonitor import Trigger, Zone
 
 
@@ -10,7 +10,7 @@ class TestConfig:
         return False
 
 
-class TestTrigger(unittest.TestCase):
+class TestTrigger(TestCase):
 
     def setUp(self):
         self.zone1 = Zone(1, 2, 3)
@@ -121,7 +121,3 @@ class TestTrigger(unittest.TestCase):
         # should now fire
         self.trigger.update([False, False])
         self.assertTrue(self.trigger.fired())
-
-
-if __name__ == '__main__':
-    unittest.main()
