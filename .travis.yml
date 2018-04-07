@@ -13,6 +13,6 @@ script:
   - coverage run ./tests/test_trigger.py
   - codecov
   - flake8 --ignore=E501  # ignore "line too long errors"
-  - radon cc ./pyleapcard/ -a
+  - radon cc ./metermonitor/ -a
   - radon mi .
   - radon raw . -s
