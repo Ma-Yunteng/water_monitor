@@ -83,7 +83,7 @@ def update_meter_zones(meter, update_data):
 
     for zone in meter.get_zones():
         zone.update(update_data[i])
-        i = i+1
+        i = i + 1
 
     return meter.recent_flow()
 
