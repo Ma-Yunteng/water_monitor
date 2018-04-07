@@ -28,10 +28,7 @@ class Trigger:
         while self.__validStates[0] != self.__state:
             self.__roll_forward()
 
-    def update(self, data):
-        self.__zone1.update(data[0])
-        self.__zone2.update(data[1])
-
+    def update(self):
         self.__lastState = list(self.__state)
         self.__state = [self.__zone1.is_hot(), self.__zone2.is_hot()]
 

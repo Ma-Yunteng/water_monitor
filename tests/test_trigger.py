@@ -10,6 +10,12 @@ class TestConfig:
         return False
 
 
+def update_trigger_zones(trigger: Trigger, update_data):
+    trigger.zones()[0].update(update_data[0])
+    trigger.zones()[1].update(update_data[1])
+    trigger.update()
+
+
 class TestTrigger(TestCase):
 
     def setUp(self):
@@ -30,7 +36,7 @@ class TestTrigger(TestCase):
     def test_update_afterFirstUpdate_stillUnknownState(self):
         update_data = [True, True]
 
-        self.trigger.update(update_data)
+        update_trigger_zones(self.trigger, update_data)
 
         self.assertFalse(self.trigger.known_state())
         self.assertFalse(self.trigger.fired())
@@ -38,86 +44,86 @@ class TestTrigger(TestCase):
     def test_update_sameAsLastState_stateIsKnown(self):
         update_data = [True, True]
 
-        self.trigger.update(update_data)
-        self.trigger.update(update_data)
+        update_trigger_zones(self.trigger, update_data)
+        update_trigger_zones(self.trigger, update_data)
 
         self.assertTrue(self.trigger.known_state())
 
     def test_update_sameAsLastState_notFired(self):
         update_data = [True, True]
 
-        self.trigger.update(update_data)
-        self.trigger.update(update_data)
+        update_trigger_zones(self.trigger, update_data)
+        update_trigger_zones(self.trigger, update_data)
 
         self.assertFalse(self.trigger.fired())
 
     def test_update_validateRealCycle(self):
-        self.trigger.update([True, True])
-        self.trigger.update([True, True])
+        update_trigger_zones(self.trigger, [True, True])
+        update_trigger_zones(self.trigger, [True, True])
 
-        self.trigger.update([False, True])
+        update_trigger_zones(self.trigger, [False, True])
         self.assertFalse(self.trigger.fired())
 
-        self.trigger.update([False, False])
+        update_trigger_zones(self.trigger, [False, False])
         self.assertTrue(self.trigger.fired())
 
-        self.trigger.update([True, False])
+        update_trigger_zones(self.trigger, [True, False])
         self.assertFalse(self.trigger.fired())
 
-        self.trigger.update([True, True])
+        update_trigger_zones(self.trigger, [True, True])
         self.assertTrue(self.trigger.fired())
 
     def test_update_sensorBounce_doesNotFire(self):
-        self.trigger.update([True, True])
-        self.trigger.update([True, True])
+        update_trigger_zones(self.trigger, [True, True])
+        update_trigger_zones(self.trigger, [True, True])
 
-        self.trigger.update([False, True])
+        update_trigger_zones(self.trigger, [False, True])
         self.assertFalse(self.trigger.fired())
 
         # sensor bounces
-        self.trigger.update([True, True])
+        update_trigger_zones(self.trigger, [True, True])
         self.assertFalse(self.trigger.fired())
         self.assertFalse(self.trigger.sensible_state())
 
         # sensor rebounds
-        self.trigger.update([False, True])
+        update_trigger_zones(self.trigger, [False, True])
         self.assertTrue(self.trigger.sensible_state())
         self.assertFalse(self.trigger.fired())
 
     def test_update_sensorBounceSeveralFrames_doesNotFire(self):
-        self.trigger.update([True, True])
-        self.trigger.update([True, True])
+        update_trigger_zones(self.trigger, [True, True])
+        update_trigger_zones(self.trigger, [True, True])
 
-        self.trigger.update([False, True])
+        update_trigger_zones(self.trigger, [False, True])
         self.assertFalse(self.trigger.fired())
 
         # sensor bounces and stays "wrong" for several frames
-        self.trigger.update([True, True])
+        update_trigger_zones(self.trigger, [True, True])
         self.assertFalse(self.trigger.fired())
         self.assertFalse(self.trigger.sensible_state())
-        self.trigger.update([True, True])
+        update_trigger_zones(self.trigger, [True, True])
         self.assertFalse(self.trigger.fired())
         self.assertFalse(self.trigger.sensible_state())
-        self.trigger.update([True, True])
+        update_trigger_zones(self.trigger, [True, True])
         self.assertFalse(self.trigger.fired())
         self.assertFalse(self.trigger.sensible_state())
 
         # sensor rebounds eventually
-        self.trigger.update([False, True])
+        update_trigger_zones(self.trigger, [False, True])
         self.assertTrue(self.trigger.sensible_state())
         self.assertFalse(self.trigger.fired())
 
     def test_update_sensorBounce_recoversAndFires(self):
-        self.trigger.update([True, True])
-        self.trigger.update([True, True])
-        self.trigger.update([False, True])
+        update_trigger_zones(self.trigger, [True, True])
+        update_trigger_zones(self.trigger, [True, True])
+        update_trigger_zones(self.trigger, [False, True])
 
         # sensor bounces
-        self.trigger.update([True, True])
+        update_trigger_zones(self.trigger, [True, True])
 
         # sensor rebounds
-        self.trigger.update([False, True])
+        update_trigger_zones(self.trigger, [False, True])
 
         # should now fire
-        self.trigger.update([False, False])
+        update_trigger_zones(self.trigger, [False, False])
         self.assertTrue(self.trigger.fired())
