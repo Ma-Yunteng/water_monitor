@@ -13,6 +13,7 @@ setup(
     url='https://github.com/skhg/water_monitor',
     packages=['metermonitor'],
     install_requires=[
+        'opencv-python'
     ],
     tests_require=[
         'mock',
