@@ -1,5 +1,5 @@
 # Water Meter Monitor
-[![Build Status](https://travis-ci.org/skhg/water_monitor.svg?branch=master)](https://travis-ci.org/skhg/water_monitor)
+[![Build Status](https://travis-ci.org/skhg/water_monitor.svg?branch=master)](https://travis-ci.org/skhg/water_monitor) [![Codecov](https://img.shields.io/codecov/c/github/skhg/water_monitor.svg)](https://codecov.io/gh/skhg/water_monitor)
 
 ## Overview
 
