@@ -14,3 +14,7 @@ script:
   - radon cc ./metermonitor/ -a
   - radon mi .
   - radon raw . -s
+notifications:
+  email:
+    on_success: never
+    on_failure: always
