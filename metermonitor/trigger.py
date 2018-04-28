@@ -1,5 +1,8 @@
 import collections
 from . import Config, Zone
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class Trigger:
@@ -55,8 +58,7 @@ class Trigger:
     def fired(self):
         if self.__has_changed() and self.known_state() and self.sensible_state():
             if self.all_equal(self.__state):
-                if self.__config.is_debug():
-                    print(self.__number, " : ", self.__lastState, " -> ", self.__state)
+                logger.debug("%s : %s -> %s", self.__number, self.__lastState, self.__state)
                 return True
 
         return False
