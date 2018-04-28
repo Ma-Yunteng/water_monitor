@@ -1,6 +1,4 @@
 class NullViewer:
-    def show(self, frame):
-        return
 
-    def render(self, rawFrame, filteredFrame, meter):
+    def render(self, frame_versions, meter):
         return

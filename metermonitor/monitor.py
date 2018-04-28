@@ -20,7 +20,16 @@ class Monitor:
         if self.__online:
             logger.debug("Frame captured")
 
-            self.__viewer.render(captured[0], captured[2], self.__meter)
+            for zone in self.__meter.get_zones():
+                rect = self.__camera.extract_rect(captured[-1], zone.x(), zone.y(), zone.w(), zone.h())
+                is_hot = self.__camera.is_hot(rect)
+                zone.update(is_hot)
+
+            flow = self.__meter.recent_flow()
+
+            logger.debug('Flow: %sL', flow)
+
+            self.__viewer.render(captured, self.__meter)
 
             return 0
         else:
@@ -30,7 +39,3 @@ class Monitor:
 
     def is_online(self):
         return self.__online
-
-    # @staticmethod
-    # def filter_frame(raw_frame):
-    #     return threshold(raw_frame)

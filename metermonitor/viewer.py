@@ -1,27 +1,30 @@
 import cv2
+from . import Meter
 
 
 class Viewer:
 
-    def show(self, frame):
+    @staticmethod
+    def draw_rect(img, x, y, w, h, colour):
+        cv2.rectangle(img, (x, y), (x + w, y + h), (colour, colour, colour), 1)
+
+    def render(self, frame_versions, meter: Meter):
         cv2.waitKey(10)
-        cv2.imshow('frame', frame)
 
-    def render(self, raw_frame, filtered_frame, meter):
-        cv2.waitKey(10)
+        window = 0
 
-        raw_copy = raw_frame.copy()
-        filter_copy = filtered_frame.copy()
+        for version in frame_versions:
+            copied_frame = version.copy()
 
-        # for zone in meter.getZones():
-        #
-        #     zoneImg = extractRect(filter_copy, zone.x(), zone.y(), zone.w(), zone.h())
-        #
-        #     drawRect(raw_copy, zone.x(), zone.y(), zone.w(), zone.h(), 0)
-        #     if zone.is_hot():
-        #         drawRect(filter_copy, zone.x(), zone.y(), zone.w(), zone.h(), 255)
-        #     else:
-        #         drawRect(filter_copy, zone.x(), zone.y(), zone.w(), zone.h(), 0)
+            for zone in meter.get_zones():
 
-        cv2.imshow('raw', raw_copy)
-        cv2.imshow('filtered', filter_copy)
+                if zone.is_hot():
+                    black = 255
+                    self.draw_rect(copied_frame, zone.x(), zone.y(), zone.w(), zone.h(), black)
+                else:
+                    white = 0
+                    self.draw_rect(copied_frame, zone.x(), zone.y(), zone.w(), zone.h(), white)
+
+            cv2.imshow(str(window), copied_frame)
+
+            window = window + 1
