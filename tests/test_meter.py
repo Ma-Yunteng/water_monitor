@@ -38,10 +38,10 @@ class TestMeter(TestCase):
         self.meter = Meter(TestConfig())
 
     def test_emptyMeter_recentFlowIsZero(self):
-        self.assertEquals(self.meter.recent_flow(), 0)
+        self.assertEqual(self.meter.recent_flow(), 0)
 
     def test_emptyMeter_noZones(self):
-        self.assertEquals(len(self.meter.get_zones()), 0)
+        self.assertEqual(len(self.meter.get_zones()), 0)
 
     def test_initWithTriggers_triggersAtCorrectPoints(self):
         trigger_config = json.loads("""[[
