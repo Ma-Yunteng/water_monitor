@@ -6,8 +6,11 @@ from metermonitor import Config, Viewer, NullViewer, Camera
 # Read command line args
 parser = argparse.ArgumentParser(description='Monitor a water meter')
 
-parser.add_argument('configFile', help='Path to configuration file for this meter')
-parser.add_argument('--modes', default='LIVE', help='Comma-separated modes to run this program in. May include DEBUG, CALIBRATE')
+parser.add_argument('-m', '--modes', default='LIVE', help='Comma-separated modes to run this program in. May include DEBUG, CALIBRATE')
+
+requiredNamed = parser.add_argument_group('Required named arguments')
+requiredNamed.add_argument('-c', '--configFile', help='Path to configuration file for this meter', required=True)
+
 args = parser.parse_args()
 
 print(args)
