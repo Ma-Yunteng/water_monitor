@@ -1,12 +1,11 @@
-from . import Config, Camera
+from . import Config, Camera, Meter
 import logging
 
 logger = logging.getLogger(__name__)
 
 
 class Monitor:
-    # todo add meter import
-    def __init__(self, config: Config, viewer, camera: Camera, meter):
+    def __init__(self, config: Config, viewer, camera: Camera, meter: Meter):
         self.__online = True
         self.__viewer = viewer
         self.__camera = camera
@@ -20,9 +19,6 @@ class Monitor:
 
         if self.__online:
             logger.debug("Frame captured")
-
-            # filtered_frame = self.filter_frame(new_frame)
-            # flow_qty = self.__meter.update(masked)
 
             self.__viewer.render(captured[0], captured[2], self.__meter)
 
