@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import argparse
-from metermonitor import Config, Viewer, NullViewer, Camera
+from metermonitor import Config, Viewer, NullViewer, Camera, Monitor, Meter
 
 # Read command line args
 parser = argparse.ArgumentParser(description='Monitor a water meter')
@@ -19,6 +19,10 @@ print('Run', args.modes, 'with config from', args.configFile)
 # Build app configuration
 config = Config(args.configFile, args.modes)
 
+meter = Meter(config)
 viewer = Viewer() if config.is_calibrate() else NullViewer()
+camera = Camera(config.device(), config.meter_face())
+monitor = Monitor(config, viewer, camera, meter)
 
-camera = Camera(config.device())
+while monitor.is_online():
+    monitor.poll()

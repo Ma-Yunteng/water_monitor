@@ -1,29 +1,35 @@
-from . import Config
-from . import Camera
+from . import Config, Camera
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class Monitor:
-
-    def __init__(self, config: Config, viewer, camera: Camera):
+    # todo add meter import
+    def __init__(self, config: Config, viewer, camera: Camera, meter):
         self.__online = True
         self.__viewer = viewer
         self.__camera = camera
         self.__config = config
+        self.__meter = meter
 
     def poll(self):
-        new_frame = self.__camera.capture()
-        self.__online = new_frame is not None
+        captured = self.__camera.capture()
 
-        # if self.__online:
-        #     filtered_frame = self.filter_frame(new_frame)
-        #     flow_qty = self.__meter.update(filtered_frame)
-        #
-        #     self.__viewer.render(new_frame, filtered_frame, self.__meter)
-        #
-        #     return flow_qty
-        # else:
-        #     if not self.__config.is_calibrate():
-        #         raise Exception("camera offline!")
+        self.__online = captured is not None
+
+        if self.__online:
+            logger.debug("Frame captured")
+
+            # filtered_frame = self.filter_frame(new_frame)
+            # flow_qty = self.__meter.update(masked)
+
+            self.__viewer.render(captured[0], captured[2], self.__meter)
+
+            return 0
+        else:
+            if not self.__config.is_calibrate():
+                raise Exception("camera offline!")
 
     def is_online(self):
         return self.__online
