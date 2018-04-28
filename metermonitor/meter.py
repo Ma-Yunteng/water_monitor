@@ -92,7 +92,7 @@ class Meter:
                 fired.append(trigger)
 
         if len(fired) > 1:
-            self.handle_calibration_error("Two triggers fired together?")
+            self.handle_calibration_error("Two triggers ({}) fired together?".format(fired))
 
         if len(fired) == 1:
             if self.__lastFired is None:
@@ -104,7 +104,7 @@ class Meter:
             self.__fireDeque.rotate(-1)
 
             if self.__fireDeque[0] is not self.__lastFired:
-                self.handle_calibration_error("Unexpected trigger fired!")
+                self.handle_calibration_error("Unexpected trigger {} fired!".format(self.__lastFired.number()))
             else:
                 return self.__sensitivity
 

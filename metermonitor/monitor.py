@@ -27,7 +27,8 @@ class Monitor:
 
             flow = self.__meter.recent_flow()
 
-            logger.debug('Flow: %sL', flow)
+            if flow > 0:
+                logger.debug('Flow: {}L'.format(flow))
 
             self.__viewer.render(captured, self.__meter)
 

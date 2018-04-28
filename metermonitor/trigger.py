@@ -58,7 +58,7 @@ class Trigger:
     def fired(self):
         if self.__has_changed() and self.known_state() and self.sensible_state():
             if self.all_equal(self.__state):
-                logger.debug("%s : %s -> %s", self.__number, self.__lastState, self.__state)
+                logger.debug("{} : {} -> {}".format(self.__number, self.__lastState, self.__state))
                 return True
 
         return False
@@ -71,3 +71,6 @@ class Trigger:
 
     def __has_changed(self):
         return set(self.__lastState) != set(self.__state)
+
+    def number(self):
+        return self.__number

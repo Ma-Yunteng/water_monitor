@@ -22,6 +22,6 @@ if "LOG-DEBUG" in args.modes:
 else:
     coloredlogs.install()
 
-logger.info('Run with config from %s in modes %s', args.configFile, args.modes)
+logger.info('Run with config from {} in modes {}'.format(args.configFile, args.modes))
 
 app.app(args.configFile, args.modes)
