@@ -2,19 +2,24 @@ import json
 import os
 import logging
 
+logger = logging.getLogger(__name__)
+
 
 class Config:
 
     def __init__(self, configuration, mode="LIVE"):
         if "DEBUG" in mode:
             logging.basicConfig(level=logging.DEBUG)
-
+        else:
+            logging.basicConfig(level=logging.INFO)
         if os.path.exists(configuration):
+            logger.info("Loading config from file")
             with open(configuration, 'r') as conf_file:
                 self.__config = json.load(conf_file)
         else:
             self.__config = json.loads(configuration)
 
+        logging.info("Config loaded")
         self.__mode = mode
 
     def name(self):

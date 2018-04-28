@@ -29,7 +29,8 @@ class Monitor:
             return 0
         else:
             if not self.__config.is_calibrate():
-                raise Exception("camera offline!")
+                logger.warn("Camera offline")
+                self.__online = False
 
     def is_online(self):
         return self.__online

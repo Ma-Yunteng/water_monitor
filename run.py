@@ -1,7 +1,14 @@
 #!/usr/bin/env python
 
 import argparse
+import coloredlogs
+import logging
 from metermonitor import Config, Viewer, NullViewer, Camera, Monitor, Meter
+
+coloredlogs.install()
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 
 # Read command line args
 parser = argparse.ArgumentParser(description='Monitor a water meter')
@@ -13,8 +20,7 @@ requiredNamed.add_argument('-c', '--configFile', help='Path to configuration fil
 
 args = parser.parse_args()
 
-print(args)
-print('Run', args.modes, 'with config from', args.configFile)
+logger.info('Run %s with config from %s', args.modes, args.configFile)
 
 # Build app configuration
 config = Config(args.configFile, args.modes)
@@ -23,6 +29,8 @@ meter = Meter(config)
 viewer = Viewer() if config.is_calibrate() else NullViewer()
 camera = Camera(config.device(), config.meter_face())
 monitor = Monitor(config, viewer, camera, meter)
+
+logger.info('Start polling camera')
 
 while monitor.is_online():
     monitor.poll()
