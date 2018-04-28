@@ -24,7 +24,9 @@ class Camera:
         self.mask_centre(masked, self.__centre_point, self.__centre_radius)
         self.mask_outside(masked, self.__centre_point, self.__outer_radius)
 
-        return raw, gray, masked
+        contrast_adjusted = self.threshold(masked)
+
+        return raw, gray, masked, contrast_adjusted
 
     def shutdown(self):
         cv2.destroyAllWindows()
@@ -51,3 +53,9 @@ class Camera:
     def mask_outside(self, img, centre, radius):
         thickness = 1000
         self.draw_circle(img, centre, int(radius + (thickness / 2)), 0, thickness)
+
+    @staticmethod
+    def threshold(img):
+        retval, threshold = cv2.threshold(img, 150, 255, cv2.THRESH_OTSU)
+
+        return threshold
