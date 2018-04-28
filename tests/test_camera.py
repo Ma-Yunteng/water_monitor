@@ -26,7 +26,7 @@ class TestCamera(TestCase):
         device["source"] = "./tests/video/video0.avi"
 
         camera = Camera(device, InitCameraTestConfig().meter_face())
-        self.assertEquals(camera.radii(), ([20, 20], 5, 10))
+        self.assertEqual(camera.radii(), ([20, 20], 5, 10))
 
     def test_validVideoSource_cameraIsOnline(self):
 
@@ -37,7 +37,7 @@ class TestCamera(TestCase):
 
         self.assertTrue(camera.is_online())
 
-    def test_validVideoSource_cameraIsOnline(self):
+    def test_invalidVideoSource_cameraIsOffline(self):
 
         device = dict()
         device["source"] = "/tmp/NON_EXISTENT_FILE"
@@ -78,21 +78,19 @@ class TestCameraIntegration(TestCase):
         frame101 = camera.capture()
 
         raw = hashlib.md5(frame101[0].data).hexdigest()
-        self.assertEquals(raw, 'bb1e80efb3e9f024499f04cd229773e1')
-        self.assertEquals(frame101[0].shape, (480, 640, 3))
+        self.assertEqual(raw, 'bb1e80efb3e9f024499f04cd229773e1')
+        self.assertEqual(frame101[0].shape, (480, 640, 3))
 
         grayscale = hashlib.md5(frame101[1].data).hexdigest()
-        self.assertEquals(grayscale, '579b098751943db1932cf53719297671')
-        self.assertEquals(frame101[1].shape, (480, 640))
+        self.assertEqual(grayscale, '579b098751943db1932cf53719297671')
+        self.assertEqual(frame101[1].shape, (480, 640))
 
         masked = hashlib.md5(frame101[2].data).hexdigest()
-        self.assertEquals(masked, 'e86328cf25e5241fc12fc5c933af568a')
-        self.assertEquals(frame101[2].shape, (480, 640))
+        self.assertEqual(masked, 'e86328cf25e5241fc12fc5c933af568a')
+        self.assertEqual(frame101[2].shape, (480, 640))
 
         contrast_adjusted = hashlib.md5(frame101[3].data).hexdigest()
-        self.assertEquals(contrast_adjusted, 'c2e863e9e5fd46d515d8af326b635f09')
-        self.assertEquals(frame101[3].shape, (480, 640))
+        self.assertEqual(contrast_adjusted, 'c2e863e9e5fd46d515d8af326b635f09')
+        self.assertEqual(frame101[3].shape, (480, 640))
 
         camera.shutdown()
-
-
