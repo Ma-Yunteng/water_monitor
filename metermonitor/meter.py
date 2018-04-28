@@ -104,7 +104,7 @@ class Meter:
             self.__fireDeque.rotate(-1)
 
             if self.__fireDeque[0] is not self.__lastFired:
-                self.handle_calibration_error("Unexpected trigger {} fired!".format(self.__lastFired.number()))
+                self.handle_calibration_error("Unexpected trigger {} fired!".format(fired))
             else:
                 return self.__sensitivity
 

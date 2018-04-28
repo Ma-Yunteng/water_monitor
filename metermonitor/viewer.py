@@ -19,10 +19,10 @@ class Viewer:
             for zone in meter.get_zones():
 
                 if zone.is_hot():
-                    black = 255
+                    black = 0
                     self.draw_rect(copied_frame, zone.x(), zone.y(), zone.w(), zone.h(), black)
                 else:
-                    white = 0
+                    white = 255
                     self.draw_rect(copied_frame, zone.x(), zone.y(), zone.w(), zone.h(), white)
 
             cv2.imshow(str(window), copied_frame)

@@ -37,7 +37,7 @@ class Camera:
 
     @staticmethod
     def is_hot(img):
-        return cv2.mean(img)[0] < 128.0
+        return cv2.mean(img)[0] > 128.0
 
     @staticmethod
     def extract_rect(img, x, y, w, h):

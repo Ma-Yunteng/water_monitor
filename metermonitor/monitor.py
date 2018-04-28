@@ -25,12 +25,12 @@ class Monitor:
                 is_hot = self.__camera.is_hot(rect)
                 zone.update(is_hot)
 
+            self.__viewer.render(captured, self.__meter)
+
             flow = self.__meter.recent_flow()
 
             if flow > 0:
                 logger.debug('Flow: {}L'.format(flow))
-
-            self.__viewer.render(captured, self.__meter)
 
             return 0
         else:
