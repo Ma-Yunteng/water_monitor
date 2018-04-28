@@ -8,10 +8,6 @@ logger = logging.getLogger(__name__)
 class Config:
 
     def __init__(self, configuration, mode="LIVE"):
-        if "DEBUG" in mode:
-            logging.basicConfig(level=logging.DEBUG)
-        else:
-            logging.basicConfig(level=logging.INFO)
         if os.path.exists(configuration):
             logger.info("Loading config from file")
             with open(configuration, 'r') as conf_file:
