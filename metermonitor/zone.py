@@ -7,7 +7,7 @@ class Zone:
         self.__hot = None
 
     def __repr__(self):
-        return '['+str(self.__x)+','+str(self.__y)+'] ('+str(self.__w)+'x'+str(self.__h)+')'+str(self.__hot)
+        return '[' + str(self.__x) + ',' + str(self.__y) + '] (' + str(self.__w) + 'x' + str(self.__h) + ')' + str(self.__hot)
 
     def x(self):
         return self.__x
