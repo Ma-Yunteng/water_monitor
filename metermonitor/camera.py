@@ -9,6 +9,9 @@ class Camera:
         self.__centre_radius = meter_face["radius"]["inner"]
         self.__outer_radius = meter_face["radius"]["outer"]
 
+    def radii(self):
+        return self.__centre_point, self.__centre_radius, self.__outer_radius
+
     def is_online(self):
         return self.__device.isOpened()
 
