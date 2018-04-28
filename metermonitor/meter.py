@@ -1,6 +1,9 @@
 import collections
 from . import Config, Trigger, Zone
 import math
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class Meter:
@@ -75,6 +78,12 @@ class Meter:
 
         return triggers, fire_deque, zones
 
+    def handle_calibration_error(self, message):
+        if self.__config.is_calibrate():
+            logger.warning(message)
+        else:
+            raise Exception(message)
+
     def recent_flow(self):
         fired = []
         for trigger in self.__triggers:
@@ -82,8 +91,8 @@ class Meter:
             if trigger.fired():
                 fired.append(trigger)
 
-        if len(fired) > 1 and not self.__config.is_calibrate():
-            raise Exception("Two triggers fired together?")
+        if len(fired) > 1:
+            self.handle_calibration_error("Two triggers fired together?")
 
         if len(fired) == 1:
             if self.__lastFired is None:
@@ -94,8 +103,8 @@ class Meter:
             self.__lastFired = fired[0]
             self.__fireDeque.rotate(-1)
 
-            if self.__fireDeque[0] is not self.__lastFired and not self.__config.is_calibrate():
-                raise Exception("Unexpected trigger fired!")
+            if self.__fireDeque[0] is not self.__lastFired:
+                self.handle_calibration_error("Unexpected trigger fired!")
             else:
                 return self.__sensitivity
 
