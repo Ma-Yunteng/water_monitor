@@ -1,10 +1,14 @@
 import json
 import os
+import logging
 
 
 class Config:
 
     def __init__(self, configuration, mode="LIVE"):
+        if "DEBUG" in mode:
+            logging.basicConfig(level=logging.DEBUG)
+
         if os.path.exists(configuration):
             with open(configuration, 'r') as conf_file:
                 self.__config = json.load(conf_file)
